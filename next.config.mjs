@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     reactStrictMode: true,
+    env: {
+      MONGODB_URI: process.env.MONGODB_URI,
+    },
     webpack: (config, { dev }) => {
       if (dev) {
         config.watchOptions = {
@@ -9,6 +12,7 @@ const nextConfig = {
           ignored: /node_modules/,
         };
       }
+      config.resolve.alias['@'] = path.resolve(__dirname);
       return config;
     },
   };
