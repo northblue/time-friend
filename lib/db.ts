@@ -6,17 +6,15 @@ if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable inside .env');
 }
 
-declare global {
-  const mongoose: {
-    conn: typeof mongoose | null;
-    promise: Promise<typeof mongoose> | null;
-  };
+interface CachedMongoose {
+  conn: typeof mongoose | null;
+  promise: Promise<typeof mongoose> | null;
 }
 
-let cached = global.mongoose;
+let cached: CachedMongoose = (globalThis as unknown as { mongoose: CachedMongoose }).mongoose;
 
 if (!cached) {
-  cached = global.mongoose = { conn: null, promise: null };
+  cached = (globalThis as unknown as { mongoose: CachedMongoose }).mongoose = { conn: null, promise: null };
 }
 
 async function connectDB() {
@@ -25,10 +23,13 @@ async function connectDB() {
   }
 
   if (!cached.promise) {
-
-    cached.promise = mongoose.connect(MONGODB_URI).then((mongoose) => {
-      return mongoose;
-    });
+    if (MONGODB_URI) {
+      cached.promise = mongoose.connect(MONGODB_URI).then((mongoose) => {
+        return mongoose;
+      });
+    } else {
+      throw new Error('MONGODB_URI is undefined');
+    }
   }
 
   cached.conn = await cached.promise;
