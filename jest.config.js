@@ -11,7 +11,7 @@ const customJestConfig = {
     '^@/components/(.*)$': '<rootDir>/components/$1',
   },
 
-  testEnvironment: 'node',
+  testEnvironment: 'jest-environment-jsdom',
 
   testMatch: ['<rootDir>/test/**/*.test.(js|jsx|ts|tsx)'],
   globals: {

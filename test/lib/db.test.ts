@@ -1,9 +1,6 @@
 import connectDB from '@/lib/db';
 import { expect, test } from '@jest/globals';
 import mongoose from 'mongoose';
-import { TextEncoder } from 'util';
-
-global.TextEncoder = TextEncoder;
 
 beforeAll(async () => {
   await connectDB();
