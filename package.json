@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "test:full": "RUN_FULL_TESTS=true jest",
+    
     "test:watch": "jest --watch"
   },
   "dependencies": {
